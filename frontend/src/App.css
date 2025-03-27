@@ -1,0 +1,9 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-y: auto; /* Ensures normal scrolling, prevents unnecessary overflow */
+}
+section {
+  scroll-margin-top: 100px; /* Adjust based on navbar height */
+}

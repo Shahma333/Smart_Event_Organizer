@@ -1,0 +1,132 @@
+footer {
+    background-color: #474545;
+    color: white;
+    padding: 40px 20px;
+    text-align: center;
+  }
+  
+  .footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+    padding-bottom: 20px;
+  }
+  
+ 
+  .footer-brand h1 {
+    font-size: 1.8rem;
+    color: #f8b400;
+    margin-bottom: 10px;
+  }
+  
+  .footer-brand p {
+    font-size: 1rem;
+    color: #ccc;
+  }
+  
+ 
+  .footer-newsletter h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .newsletter-box {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+  }
+  
+  .newsletter-box input {
+    width: 220px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+  }
+  
+  .newsletter-box button {
+    background-color: #f8b400;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  
+  .newsletter-box button:hover {
+    background-color: #e09b00;
+  }
+  
+  .footer-links h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .footer-links ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-links li {
+    margin: 5px 0;
+  }
+  
+  .footer-links a {
+    color: #f8b400;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  
+  .footer-links a:hover {
+    color: #e09b00;
+  }
+  
+
+  .social-icons {
+    margin-top: 10px;
+  }
+  
+  .social-icons a {
+    color: white;
+    margin: 0 8px;
+    font-size: 1.5rem;
+    transition: 0.3s;
+  }
+  
+  .social-icons a:hover {
+    color: #f8b400;
+  }
+  
+
+  .footer-bottom {
+    border-top: 1px solid #444;
+    padding-top: 15px;
+    font-size: 0.9rem;
+    color: #bbb;
+  }
+  
+
+  @media (max-width: 768px) {
+    .footer-container {
+      flex-direction: column;
+      text-align: center;
+      gap: 20px;
+    }
+  
+    .newsletter-box {
+      flex-direction: column;
+    }
+  
+    .newsletter-box input {
+      width: 100%;
+    }
+  
+    .newsletter-box button {
+      width: 100%;
+    }
+  }
+  
