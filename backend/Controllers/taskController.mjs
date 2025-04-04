@@ -65,14 +65,18 @@ export const getTasksByEvent = async (req, res) => {
             .populate("vendor");
 
         if (!tasks.length) {
-            return res.status(404).json({ message: "No tasks found for this event" });
+            return res.status(200).json({ tasks });
         }
-
       
-        if (tasks[0].createdBy.toString() !== userId.toString() && userRole !== "coordinator") {
+      
+        if (
+            tasks[0].createdBy.toString() !== userId.toString() &&
+            userRole !== "coordinator" &&
+            userRole !== "admin"
+        ) {
             return res.status(403).json({ message: "Access denied" });
         }
-
+        
         return res.status(200).json({ message: "Tasks fetched successfully", tasks });
     } catch (err) {
         return res.status(500).json({ message: err.message || "Internal Server Error" });
@@ -159,24 +163,27 @@ export const updateTask = async (req, res) => {
 
 export const getVendorTasks = async (req, res) => {
     try {
-        const { vendorId } = req.params;
-
-        const tasks = await taskCollection.find({ vendor: vendorId }).populate("eventId", "name"); 
-
-
-        if (!tasks.length) {
-            return res.status(404).json({ message: "No tasks found for this vendor" });
-        }
-
-        const vendor = await vendorCollection.findById(vendorId);
-
-        res.json({ vendor, tasks });
+      const { vendorId } = req.params;
+  
+      // Check if vendor exists first
+      const vendor = await vendorCollection.findById(vendorId);
+      if (!vendor) {
+        return res.status(404).json({ message: "Vendor not found" });
+      }
+  
+      // Get tasks for the vendor
+      const tasks = await taskCollection
+        .find({ vendor: vendorId })
+        .populate("eventId", "name");
+  
+      // Return tasks (even if empty)
+      res.status(200).json({ vendor, tasks });
     } catch (error) {
-        console.error("Error fetching vendor tasks:", error);
-        res.status(500).json({ message: "Error fetching tasks" });
+      console.error("🔥 Error fetching vendor tasks:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
-};
-
+  };
+  
 export default {
     createTask,
     assignVendorToTask,

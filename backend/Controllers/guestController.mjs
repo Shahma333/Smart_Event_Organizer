@@ -61,7 +61,7 @@ export const getGuestsByEvent = async (req, res) => {
         const guests = await guestCollection.find({ eventId });
 
         if (!guests.length) {
-            return res.status(404).send({ message: "No guests found for this event" });
+            return res.status(200).json({ guests });
         }
 
         

@@ -9,7 +9,7 @@ taskRouter.post("/create", protect,createTask);
 taskRouter.put("/update/:taskId", protect, authorize(["user", "coordinator"]), updateTask);
 taskRouter.get("/vendor/:vendorId", getVendorTasks);
 
-taskRouter.get("/:eventId", protect, getTasksByEvent);
+taskRouter.get("/:eventId", protect, authorize(["admin", "coordinator", "user"]), getTasksByEvent);
 
 taskRouter.delete("/delete/:taskId", protect,deleteTask);
 taskRouter.put("/:taskId", getTaskById); 

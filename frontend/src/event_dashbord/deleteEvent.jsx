@@ -14,7 +14,7 @@ const DeleteEvent = () => {
             const handleDelete = async () => {
                 try {
                     console.log("Deleting Event ID:", eventId);
-                    await api.delete(`/events/delete/${eventId}`);  te
+                    await api.delete(`/events/delete/${eventId}`);  
                     
                     toast.success("Event deleted successfully!");
                     

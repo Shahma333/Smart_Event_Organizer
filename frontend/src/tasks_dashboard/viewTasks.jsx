@@ -35,13 +35,28 @@ const ViewTasks = () => {
    
     const fetchTasks = async () => {
         try {
-            const response = await api.get(`/tasks/${eventId}`);
-            const updatedTasks = response.data.tasks.map((task) => {
-                const eventDate = new Date(task.eventDate); 
+            const token = localStorage.getItem("access_token");
+    
+            const response = await api.get(`/tasks/${eventId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+    
+            const tasksFromAPI = response.data.tasks || [];
+    
+            if (tasksFromAPI.length === 0) {
+                toast("No tasks found for this event.");
+                setTasks([]);
+                return;
+            }
+    
+            const updatedTasks = tasksFromAPI.map((task) => {
+                const eventDate = new Date(task.eventDate);
                 const today = new Date();
-
+    
                 let updatedStatus = task.status;
-
+    
                 if (updatedStatus === "assigned") {
                     if (eventDate.toDateString() === today.toDateString()) {
                         updatedStatus = "in-progress";
@@ -49,18 +64,29 @@ const ViewTasks = () => {
                         updatedStatus = "completed";
                     }
                 }
-
+    
                 return { ...task, status: updatedStatus };
             });
-
+    
             setTasks(updatedTasks);
         } catch (error) {
+            setTasks([]);
+            setLoading(false);
+    
+            if (error.response?.status === 403) {
+                toast.error("Access forbidden: You are not authorized to view these tasks.");
+            } else if (error.response?.status === 404) {
+                toast.error("No tasks found (404).");
+            } else {
+                toast.error("Something went wrong while fetching tasks.");
+            }
+    
             console.error("Error fetching tasks:", error);
         } finally {
             setLoading(false);
         }
     };
-
+    
     const fetchEventDetails = async () => {
         try {
             const response = await api.get(`/events/get/${eventId}`);

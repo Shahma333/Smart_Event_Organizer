@@ -62,7 +62,7 @@ export const getAllEvents = async (req, res) => {
     console.log("Events with Tasks:", events); 
 
     if (!events || events.length === 0) {
-      return res.status(404).json({ message: "No events found" });
+      return res.status(200).json({ events: [] });
     }
 
     res.status(200).json({ events });
@@ -149,16 +149,26 @@ export const updateEvent = async (req, res) => {
 
 export const deleteEvent = async (req, res) => {
   try {
-    const { eventId } = req.params;
-    const event = await eventCollection.findOneAndDelete({ _id: eventId, createdBy: req.user._id });
+    const event = await eventCollection.findById(req.params.eventId);
 
     if (!event) {
-      return res.status(404).json({ message: "Event not found or unauthorized" });
+      return res.status(404).json({ message: "Event not found" });
     }
+
+    // ✅ If the user is NOT an admin, make sure they own the event
+    if (
+      req.user.role !== "admin" &&
+      event.createdBy.toString() !== req.user._id.toString()
+    ) {
+      return res.status(403).json({ message: "Not authorized to delete this event" });
+    }
+
+    await event.deleteOne();
 
     return res.status(200).json({ message: "Event deleted successfully" });
   } catch (err) {
-    return res.status(500).json({ message: err.message || "Internal server error" });
+    console.error("❌ Error deleting event:", err);
+    return res.status(500).json({ message: "Server error" });
   }
 };
 export const getCompletedEvents = async (req, res) => {

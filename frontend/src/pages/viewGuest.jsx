@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { api } from "../axios";
+import toast from "react-hot-toast";
 
 const GuestList = () => {
     const { eventId } = useParams();
@@ -12,8 +13,15 @@ const GuestList = () => {
         const fetchGuests = async () => {
             try {
                 const response = await api.get(`/guests/event/${eventId}`);
-                setGuests(response.data.guests);
+                const guestList = response.data.guests || [];
+                 if (guestList.length === 0) {
+                                toast("No guests are invited for this event.");
+                               
+                                return;
+                            }
+            setGuests(guestList);
             } catch (err) {
+                console.error("Error fetching guests:", err);
                 setError("Failed to load guests.");
             } finally {
                 setLoading(false);
@@ -23,13 +31,13 @@ const GuestList = () => {
     }, [eventId]);
 
     if (loading) return <p>Loading guests...</p>;
-    if (error) return <p>{error}</p>;
+    if (error) return <p style={{ color: "red" }}>{error}</p>;
 
     return (
         <div style={styles.container}>
             <h2>Guest List</h2>
             {guests.length === 0 ? (
-                <p>No guests found.</p>
+                <p style={{ color: "#888", fontStyle: "italic" }}>No guests found.</p>
             ) : (
                 <ul style={styles.list}>
                     {guests.map((guest) => (
@@ -37,7 +45,10 @@ const GuestList = () => {
                             <p><strong>Name:</strong> {guest.name}</p>
                             <p><strong>Email:</strong> {guest.email}</p>
                             <p><strong>Phone:</strong> {guest.phone}</p>
-                            <p><strong>Status:</strong> <span style={getStatusStyle(guest.status)}>{guest.status}</span></p>
+                            <p>
+                                <strong>Status:</strong>{" "}
+                                <span style={getStatusStyle(guest.status)}>{guest.status}</span>
+                            </p>
                         </li>
                     ))}
                 </ul>
@@ -66,7 +77,6 @@ const styles = {
     }
 };
 
-// ✅ Function to style status text
 const getStatusStyle = (status) => {
     const colors = {
         pending: { color: "orange", fontWeight: "bold" },

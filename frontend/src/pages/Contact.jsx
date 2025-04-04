@@ -14,7 +14,7 @@ const Contact = () => {
     e.preventDefault();
     
     try {
-      const { data } = await api.post("/message/send", formData);
+      const { data } = await api.post("/messages/send", formData);
       setResponseMessage(data.success ? "Message sent successfully!" : data.message || "Failed to send message.");
       setFormData({ name: "", email: "", subject: "", message: "" });
     } catch (error) {

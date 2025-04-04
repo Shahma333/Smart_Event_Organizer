@@ -7,20 +7,20 @@ const TasksDashboard = () => {
   const [userRole, setUserRole] = useState("");
 
   useEffect(() => {
-    const storedRole = localStorage.getItem("role");
-    console.log("Retrieved Role:", storedRole); 
-
-    if (storedRole) {
-      setUserRole(storedRole.toLowerCase());
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser && storedUser.role) {
+      console.log("Retrieved Role:", storedUser.role);
+      setUserRole(storedUser.role.toLowerCase());
     }
   }, []);
+  
 
   return (
     <div style={styles.container}>
       <h2 style={styles.heading}>Tasks Management</h2>
       <div style={styles.buttonContainer}>
      
-       {userRole === "user" && (
+      {userRole === "user" && (
   <button
     style={styles.createButton}
     onClick={() => navigate(`/events/${eventId}/tasks/create`)}
@@ -28,6 +28,7 @@ const TasksDashboard = () => {
     ➕ Create Task
   </button>
 )}
+
 
 
       

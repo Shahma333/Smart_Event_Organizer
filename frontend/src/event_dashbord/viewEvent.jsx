@@ -3,6 +3,7 @@ import { api } from "../axios";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 const ViewEvents = () => {
     const [events, setEvents] = useState([]);
@@ -23,25 +24,31 @@ const ViewEvents = () => {
             const response = await api.get("/events/getevents", {
                 headers: { Authorization: `Bearer ${token}` },
             });
-
+    
             let filteredEvents = response.data.events.map(event => ({
                 ...event,
-                date: moment(event.date).format("YYYY-MM-DD"), // Ensure proper date format
+                date: moment(event.date).format("YYYY-MM-DD"),
             }));
-            
-
+    
             if (user?.role === "user") {
                 filteredEvents = filteredEvents.filter(event =>
                     event.createdBy?._id.toString() === user.id
                 );
             }
-
-
+    
+            if (filteredEvents.length === 0) {
+                //console.warn("No events found for this user.");
+                 toast("No events found");
+            }
+    
             setEvents(filteredEvents);
         } catch (error) {
             console.error("Error fetching events:", error.response?.data?.message || error.message);
+            // Optional: use toast
+            // toast.error("Error fetching events");
         }
     };
+    
 
     const getEventStatus = (eventDate) => {
         console.log("Checking event date:", eventDate);

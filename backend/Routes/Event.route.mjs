@@ -31,7 +31,7 @@ eventRouter.post("/upload/:eventId", protect, upload.single("image"), uploadEven
 
 eventRouter.post("/create", protect, createEvent);
 eventRouter.put("/update/:eventId", protect, authorize(["user"]), updateEvent);
-eventRouter.delete("/delete/:eventId", protect, authorize(["user"]), deleteEvent);
+eventRouter.delete("/delete/:eventId", protect, authorize(["user","admin"]), deleteEvent);
 eventRouter.delete("/delete-image/:eventId/:imageId", protect, authorize(["user","coordinator"]), deletePhoto);
 
 eventRouter.get("/getevents", protect, getAllEvents);
