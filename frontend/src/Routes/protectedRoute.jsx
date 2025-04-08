@@ -10,9 +10,19 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
     
     if (allowedRoles && !allowedRoles.includes(user.role)) {
-        return <Navigate to="/" />;
-    }
-
+        let redirectPath = "/";
+      
+        if (user.role === "user") {
+          redirectPath = "/user-dashboard";
+        } else if (user.role === "admin") {
+          redirectPath = "/admin-dashboard";
+        } else if (user.role === "coordinator") {
+          redirectPath = "/coordinator-dashboard";
+        }
+      
+        return <Navigate to={redirectPath} />;
+      }
+      
     return children || <h2>Not Found</h2>; 
 };
 

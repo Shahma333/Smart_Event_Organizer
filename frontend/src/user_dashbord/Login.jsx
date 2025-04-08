@@ -81,9 +81,14 @@ const Login = () => {
 
                 <button className="login-button" type="submit">Login</button>
 
-                <button className="Signup-button" onClick={() => navigate("/signup")}>
-                    Don't have an account? Sign Up
-                </button>
+                <button
+  type="button"
+  className="Signup-button"
+  onClick={() => navigate("/signup")}
+>
+  Don't have an account? Sign Up
+</button>
+
             </form>
         </div>
         </div>

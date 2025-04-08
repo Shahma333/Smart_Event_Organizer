@@ -4,7 +4,7 @@ import "../styles/hero.css";
 import bg from "../assets/bg.png";
 
 const HeroSection = () => {
-    const navigate = useNavigate(); // Initialize navigation
+    const navigate = useNavigate(); 
 
     return (
         <section className="hero">
@@ -19,23 +19,31 @@ const HeroSection = () => {
 
                   
                     <button 
-                        onClick={() => navigate("/login")}
-                        style={{
-                            backgroundColor: "#007bff",
-                            color: "white",
-                            padding: "12px 20px",
-                            border: "none",
-                            borderRadius: "5px",
-                            cursor: "pointer",
-                            fontSize: "16px",
-                            margin: "10px",
-                            transition: "0.3s"
-                        }}
-                        onMouseOver={(e) => e.target.style.backgroundColor = "#0056b3"}
-                        onMouseOut={(e) => e.target.style.backgroundColor = "#007bff"}
-                    >
-                        GET STARTED
-                    </button>
+    onClick={() => {
+        const token = localStorage.getItem("access_token");
+        if (token) {
+            navigate("/events");
+        } else {
+            navigate("/login");
+        }
+    }}
+    style={{
+        backgroundColor: "#007bff",
+        color: "white",
+        padding: "12px 20px",
+        border: "none",
+        borderRadius: "5px",
+        cursor: "pointer",
+        fontSize: "16px",
+        margin: "10px",
+        transition: "0.3s"
+    }}
+    onMouseOver={(e) => e.target.style.backgroundColor = "#0056b3"}
+    onMouseOut={(e) => e.target.style.backgroundColor = "#007bff"}
+>
+    GET STARTED
+</button>
+
 
                
                     <button 

@@ -12,7 +12,7 @@ const VendorSchema = new mongoose.Schema(
      
     },
     phone: {
-      type: String,
+      type: Number,
       required: true,
     },
     email: {

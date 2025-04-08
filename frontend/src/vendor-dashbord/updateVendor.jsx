@@ -66,9 +66,9 @@ const UpdateVendor = () => {
         />
         <input
           type="text"
-          name="service"
+          name="serviceType"
           placeholder="Service Type"
-          value={vendorData.service}
+          value={vendorData.serviceType}
           onChange={handleChange}
           style={styles.input}
           required

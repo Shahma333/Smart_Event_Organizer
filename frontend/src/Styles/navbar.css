@@ -110,6 +110,7 @@
 
 
 .notification-container {
+  margin-top: 10px;
   position: relative;
   cursor: pointer;
   margin-right: 12px;

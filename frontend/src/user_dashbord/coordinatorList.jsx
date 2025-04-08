@@ -70,8 +70,8 @@ const CoordinatorManagement = () => {
       </Row>
 
      
-      <Row>
-        <Col>
+      <Row className="justify-content-center mb-4">
+        <Col md={6} lg={4}>
           {coordinators.map((coordinator) => (
             <Card key={coordinator._id} className="mb-3 shadow-sm">
               <Card.Body className="d-flex justify-content-between align-items-center">

@@ -19,40 +19,61 @@ const AddVendor = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    if (!vendorData.phone.trim()) {
-      alert("Phone number is required.");
+    const { name, serviceType, phone, email } = vendorData;
+  
+    // Trim values
+    const trimmedName = name.trim();
+    const trimmedService = serviceType.trim();
+    const trimmedPhone = phone.trim();
+    const trimmedEmail = email.trim();
+  
+    // Validation checks
+    if (!trimmedName || trimmedName.length < 3) {
+      alert("Vendor name must be at least 3 characters.");
+      return;
+    }
+  
+    if (!trimmedService || trimmedService.length < 3) {
+      alert("Service type must be at least 3 characters.");
+      return;
+    }
+  
+    if (!/^\d{10}$/.test(trimmedPhone)) {
+      alert("Please enter a valid 10-digit phone number.");
+      return;
+    }
+  
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+    
+  
+    const vendorPayload = {
+      name: trimmedName,
+      serviceType: trimmedService,
+      phone: trimmedPhone,
+      email: trimmedEmail,
+      createdBy: localStorage.getItem("user_id") || null,
+    };
+  
+    const token = localStorage.getItem("access_token");
+  
+    if (!token) {
+      alert("Session expired. Please log in again.");
+      navigate("/login");
       return;
     }
   
     try {
-      const vendorPayload = {
-        name: vendorData.name.trim(),
-        serviceType: vendorData.serviceType.trim(),
-        phone: vendorData.phone.trim(),  // ✅ Ensure phone is not empty
-        email: vendorData.email.trim(),
-        createdBy: localStorage.getItem("user_id") || null, // ✅ Ensure createdBy is set
-      };
-      const token = localStorage.getItem("access_token");
-
-      console.log("Access Token:", token); // 🔍 Check if token is null
-      
-      if (!token) {
-        alert("Session expired. Please log in again.");
-        navigate("/login");
-        return;
-      }
-      
-      console.log("Sending Data:", vendorPayload);  // Debugging log
-  
       await api.post("/vendors/add", vendorPayload, {
-        headers: { 
+        headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+          Authorization: `Bearer ${token}`,
         },
-        
       });
-      
-      
+  
       alert("Vendor added successfully!");
       navigate("/vendors/get");
     } catch (error) {
@@ -60,6 +81,7 @@ const AddVendor = () => {
       alert(error.response?.data?.message || "Failed to add vendor");
     }
   };
+  
   
   return (
     <div style={styles.container}>

@@ -100,7 +100,7 @@ const AppRoutes = () => {
                 <Route path="/events/:eventId/guests/view" element={<GuestList />} />
                 <Route path="/events/:eventId/guests/add" element={<AddGuest />} />
 
-                <Route path="/coordinator-dashboard" element={<ProtectedRoute allowedRoles={["coordinator", "admin"]}><CoordinatorDashboard /></ProtectedRoute>} />
+                <Route path="/coordinator-dashboard" element={<ProtectedRoute allowedRoles={["coordinator"]}><CoordinatorDashboard /></ProtectedRoute>} />
                
                 <Route path="/admin-dashboard" element={<AdminDashboard />} />
                 <Route path="/messages" element={<AdminMessages />} />

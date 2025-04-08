@@ -85,8 +85,8 @@ const UserManagement = () => {
         </Col>
       </Row>
 
-      <Row>
-        <Col>
+      <Row className="justify-content-center mb-4">
+        <Col  md={6} lg={4}>
           {users.map((userItem) => {
           const userEvents = events.filter((event) => event.createdBy?._id === userItem._id);
 
