@@ -25,7 +25,7 @@ const Contact = () => {
   return (
     <section className="contact">
     
-      <div className="info-row">
+      <div className="info-row mt-3">
         <div className="info-box">
           <h4>Address</h4>
           <p>Malappuram, Kerala</p>
